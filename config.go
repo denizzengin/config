@@ -43,7 +43,7 @@ func read() (*Configuration, error) {
 
 	viper.AutomaticEnv()
 
-	if err := viper.Unmarshal(cfg); err != nil {
+	if err := viper.Unmarshal(&cfg); err != nil {
 		return nil, err
 	}
 
