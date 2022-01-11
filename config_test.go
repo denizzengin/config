@@ -6,10 +6,7 @@ import (
 )
 
 func TestConfig(t *testing.T){
-	cfg, err := read()
-	if err != nil {
-		log.Fatal("Error : config file", err)
-	}
+	cfg := New()	
 	if cfg.Environment.Env != "Development" {
 		log.Fatal("Error : file found but inccorect env variable value : value : ", cfg.Environment.Env)
 	}

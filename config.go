@@ -17,17 +17,9 @@ const (
 	productionEnv       string = "Production"
 )
 
-var cfg *Configuration
+var Config *Configuration = New()
 
-func init() {
-	var err error 
-	cfg, err = read()
-	if err != nil {
-		panic(err)
-	}
-}
-
-func read() (*Configuration, error) {
+func New() (*Configuration) {
 
 	viper.SetConfigType(configFileType)
 	viper.SetConfigName(configName)
@@ -38,13 +30,13 @@ func read() (*Configuration, error) {
 
 	configFilePath := filepath.Join(configPath, configName) + configFileExtension
 	if err := readConfiguration(configFilePath); err != nil {
-		return nil, err
+		return nil
 	}
 
 	viper.AutomaticEnv()
-
+	var cfg *Configuration
 	if err := viper.Unmarshal(&cfg); err != nil {
-		return nil, err
+		return nil
 	}
 
 	viper.OnConfigChange(func(e fsnotify.Event) {
@@ -55,7 +47,7 @@ func read() (*Configuration, error) {
 
 	viper.WatchConfig()
 
-	return cfg, nil
+	return cfg
 }
 
 // read configuration from file
